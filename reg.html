@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com/dist/email.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        body {
+            background-color: #f0f0f0;
+        }
+        .rf {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px; /* Adjust width as needed */
+        }
+        .rf h1 {
+            font-size: 40px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .rf p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .rf input[type="text"], .rf input[type="email"], .rf input[type="password"], .rf textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .rf button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .rf button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="rf">
+        <h1>Registration Form</h1>
+        <form id="registrationForm">
+            <p><label for="firstname">Full Name</label></p>
+            <input type="text" id="firstname" name="fullname" placeholder="Full Name" required>
+
+            <p><label for="username">User Name</label></p>
+            <input type="text" id="username" name="username" placeholder="User Name" required>
+
+            <p><label for="email">Email</label></p>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+
+            <p><label for="password">Password</label></p>
+            <input type="password" id="password" name="password" required>
+
+            <p><label for="subject">Subject</label></p>
+            <input type="text" id="subject" name="subject" required>
+
+            <p><label for="message">Message</label></p>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="button" onclick="sendMail()">Submit</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        
+        emailjs.init("user_A8HjNi37kwZbYw_b");
+
+        function sendMail() {
+
+            let form = document.getElementById("registrationForm");
+            let params = {
+                fullname: form.elements["fullname"].value,
+                username: form.elements["username"].value,
+                email: form.elements["email"].value,
+                password: form.elements["password"].value,
+                subject: form.elements["subject"].value,
+                message: form.elements["message"].value
+            };
+
+            // Send email using EmailJS
+            emailjs.send("service_q8jkyrl", "template_ztyu038", params)
+                .then(function(response) {
+                    alert("Your message has been sent successfully!");
+                    console.log("SUCCESS!", response.status, response.text);
+                    form.reset(); // Optionally clear the form after submission
+                }, function(error) {
+                    alert("Failed to send your message. Please try again later.");
+                    console.error("FAILED...", error);
+                });
+        }
+    </script>
+</body>
+</html>
